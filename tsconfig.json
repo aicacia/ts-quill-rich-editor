@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "lib": ["ES2015", "DOM"],
+    "target": "ES2015",
+    "outDir": "lib",
+    "declaration": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "checkJs": true,
+    "importHelpers": true
+  },
+  "include": ["src", "index.d.ts"],
+  "exclude": ["src/**/*.test.*"],
+  "typedocOptions": {
+    "entryPoints": ["src/index.ts"],
+    "out": "docs",
+    "excludeExternals": true,
+    "excludePrivate": true,
+    "excludeInternal": true
+  }
+}

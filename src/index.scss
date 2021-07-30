@@ -1,0 +1,48 @@
+.ql-rich-editor {
+  border: none !important;
+  min-width: 128px;
+  font-size: 1rem !important;
+
+  h1 {
+    font-size: 2.5rem !important;
+  }
+  h2 {
+    font-size: 2rem !important;
+  }
+  h3 {
+    font-size: 1.5rem !important;
+  }
+
+  .katex-display {
+    margin: 0;
+  }
+
+  .ql-editor {
+    height: inherit !important;
+  }
+
+  .ql-editor .ql-code-block-container {
+    border: 1px solid #ebedef !important;
+    background-color: #f6f8fa !important;
+    color: #24292e !important;
+  }
+
+  .ql-tooltip::before {
+    content: "";
+  }
+
+  .ql-code-block-container .ql-ui {
+    position: relative;
+    top: inherit;
+    right: inherit;
+  }
+
+  .ql-tooltip.ql-editing span.ql-preview,
+  .ql-tooltip.ql-editing span.ql-remove {
+    display: none;
+  }
+
+  &.ql-toolbar {
+    border-bottom: 1px solid #ccc !important;
+  }
+}
