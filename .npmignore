@@ -12,5 +12,6 @@ node_modules
 .eslintignore
 .eslintrc
 .gitignore
+.parcelrc
 npm-debug.log
 tsconfig.json

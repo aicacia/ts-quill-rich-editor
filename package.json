@@ -7,7 +7,7 @@
     "url": "https://github.com/aicacia/ts-quill-rich-editor"
   },
   "type": "commonjs",
-  "main": "./src/index.ts",
+  "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "styles": "./lib/theme.css",
   "scripts": {
@@ -22,7 +22,7 @@
     "lint": "eslint . --fix",
     "prettier": "prettier --ignore-path ./.eslintignore --ignore-unknown --write .",
     "preCommit": "npm run prettier && npm run lint && npm run coverage && npm run prepublishOnly",
-    "example": "parcel serve example/index.html"
+    "example": "parcel serve example"
   },
   "husky": {
     "hooks": {
@@ -39,13 +39,11 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "@parcel/transformer-sass": "next",
-    "@types/benchmark": "2",
     "@types/deepmerge": "2",
-    "@types/tape": "4",
     "@types/quill": "2.0.4",
+    "@types/tape": "4",
     "@typescript-eslint/eslint-plugin": "4",
     "@typescript-eslint/parser": "4",
-    "benchmark": "2",
     "eslint": "7",
     "eslint-config-prettier": "8",
     "eslint-plugin-prettier": "3",
@@ -54,7 +52,7 @@
     "nyc": "15",
     "parcel": "next",
     "prettier": "2",
-    "quill": "^2.0.0-dev.4",
+    "quill": "2.0.0-dev.4",
     "tap-nyc": "1",
     "tap-spec": "5",
     "tape": "5",
@@ -67,7 +65,7 @@
     "deepmerge": "4"
   },
   "peerDependencies": {
-    "quill": "^2.0.0-dev.4",
+    "quill": "2.0.0-dev.4",
     "tslib": "2"
   },
   "nyc": {

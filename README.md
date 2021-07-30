@@ -1,53 +1,18 @@
-# ts-core
+# ts-quill-rich-editor
 
 [![license](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue")](LICENSE-MIT)
-[![docs](https://img.shields.io/badge/docs-typescript-blue.svg)](https://aicacia.github.io/ts-core/)
-[![npm (scoped)](https://img.shields.io/npm/v/@aicacia/core)](https://www.npmjs.com/package/@aicacia/core)
-[![build](https://github.com/aicacia/ts-core/workflows/Test/badge.svg)](https://github.com/aicacia/ts-core/actions?query=workflow%3ATest)
+[![docs](https://img.shields.io/badge/docs-typescript-blue.svg)](https://aicacia.github.io/ts-quill-rich-editor/)
+[![npm (scoped)](https://img.shields.io/npm/v/@aicacia/quill-rich-editor)](https://www.npmjs.com/package/@aicacia/quill-rich-editor)
+[![build](https://github.com/aicacia/ts-quill-rich-editor/workflows/Test/badge.svg)](https://github.com/aicacia/ts-quill-rich-editor/actions?query=workflow%3ATest)
 
-aicacia core utils
-
-## Options
+aicacia quill rich editor
 
 ```ts
-import { Option, none } from "@aicacia/core";
+import { createQuill } from "../src";
 
-const maybe = none<number>();
+const quill = createQuill(document.getElementById("app"));
 
-if (maybe.isNone()) {
-  maybe.replace(1);
-}
-
-console.log(maybe.unwrap()); // 1
-```
-
-## Result
-
-```ts
-import { Result, ok, err } from "@aicacia/core";
-
-fetch("/api")
-  .then((res) => ok(res))
-  .catch((e) => err<Response>(e))
-  .then((result) => {
-    if (result.isOk()) {
-      console.log(result.unwrap());
-    } else {
-      console.error(result.unwrapErr());
-    }
-  });
-```
-
-## Iter
-
-```ts
-import { iter } from "@aicacia/core";
-
-const evens = iter([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-  .map((x) => x * x)
-  .filter((x) => x % 2 === 0);
-
-for (const value of evens) {
-  console.log(value);
-}
+quill.on("text-change", (delta) => {
+  console.log(delta);
+});
 ```
