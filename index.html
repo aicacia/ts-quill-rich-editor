@@ -56,55 +56,21 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#ts-core" id="ts-core" style="color: inherit; text-decoration: none;">
-					<h1>ts-core</h1>
+				<a href="#ts-quill-rich-editor" id="ts-quill-rich-editor" style="color: inherit; text-decoration: none;">
+					<h1>ts-quill-rich-editor</h1>
 				</a>
 				<p><a href="LICENSE-MIT"><img src="https://img.shields.io/badge/license-MIT%2FApache--2.0-blue%22" alt="license"></a>
-					<a href="https://aicacia.github.io/ts-core/"><img src="https://img.shields.io/badge/docs-typescript-blue.svg" alt="docs"></a>
-					<a href="https://www.npmjs.com/package/@aicacia/core"><img src="https://img.shields.io/npm/v/@aicacia/core" alt="npm (scoped)"></a>
-				<a href="https://github.com/aicacia/ts-core/actions?query=workflow%3ATest"><img src="https://github.com/aicacia/ts-core/workflows/Test/badge.svg" alt="build"></a></p>
-				<p>aicacia core utils</p>
-				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
-					<h2>Options</h2>
-				</a>
-				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Option</span><span style="color: #000000">, </span><span style="color: #001080">none</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@aicacia/core&quot;</span><span style="color: #000000">;</span>
+					<a href="https://aicacia.github.io/ts-quill-rich-editor/"><img src="https://img.shields.io/badge/docs-typescript-blue.svg" alt="docs"></a>
+					<a href="https://www.npmjs.com/package/@aicacia/quill-rich-editor"><img src="https://img.shields.io/npm/v/@aicacia/quill-rich-editor" alt="npm (scoped)"></a>
+				<a href="https://github.com/aicacia/ts-quill-rich-editor/actions?query=workflow%3ATest"><img src="https://github.com/aicacia/ts-quill-rich-editor/workflows/Test/badge.svg" alt="build"></a></p>
+				<p>aicacia quill rich editor</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">createQuill</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;../src&quot;</span><span style="color: #000000">;</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">maybe</span><span style="color: #000000"> = </span><span style="color: #795E26">none</span><span style="color: #000000">&lt;</span><span style="color: #267F99">number</span><span style="color: #000000">&gt;();</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">quill</span><span style="color: #000000"> = </span><span style="color: #795E26">createQuill</span><span style="color: #000000">(</span><span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;app&quot;</span><span style="color: #000000">));</span>
 
-<span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">maybe</span><span style="color: #000000">.</span><span style="color: #795E26">isNone</span><span style="color: #000000">()) {</span>
-<span style="color: #000000">  </span><span style="color: #001080">maybe</span><span style="color: #000000">.</span><span style="color: #795E26">replace</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">);</span>
-<span style="color: #000000">}</span>
-
-<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">maybe</span><span style="color: #000000">.</span><span style="color: #795E26">unwrap</span><span style="color: #000000">()); </span><span style="color: #008000">// 1</span>
-</code></pre>
-				<a href="#result" id="result" style="color: inherit; text-decoration: none;">
-					<h2>Result</h2>
-				</a>
-				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Result</span><span style="color: #000000">, </span><span style="color: #001080">ok</span><span style="color: #000000">, </span><span style="color: #001080">err</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@aicacia/core&quot;</span><span style="color: #000000">;</span>
-
-<span style="color: #795E26">fetch</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;/api&quot;</span><span style="color: #000000">)</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">res</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">ok</span><span style="color: #000000">(</span><span style="color: #001080">res</span><span style="color: #000000">))</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">catch</span><span style="color: #000000">((</span><span style="color: #001080">e</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #795E26">err</span><span style="color: #000000">&lt;</span><span style="color: #267F99">Response</span><span style="color: #000000">&gt;(</span><span style="color: #001080">e</span><span style="color: #000000">))</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">result</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">result</span><span style="color: #000000">.</span><span style="color: #795E26">isOk</span><span style="color: #000000">()) {</span>
-<span style="color: #000000">      </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000">.</span><span style="color: #795E26">unwrap</span><span style="color: #000000">());</span>
-<span style="color: #000000">    } </span><span style="color: #AF00DB">else</span><span style="color: #000000"> {</span>
-<span style="color: #000000">      </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">error</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000">.</span><span style="color: #795E26">unwrapErr</span><span style="color: #000000">());</span>
-<span style="color: #000000">    }</span>
-<span style="color: #000000">  });</span>
-</code></pre>
-				<a href="#iter" id="iter" style="color: inherit; text-decoration: none;">
-					<h2>Iter</h2>
-				</a>
-				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">iter</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@aicacia/core&quot;</span><span style="color: #000000">;</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">evens</span><span style="color: #000000"> = </span><span style="color: #795E26">iter</span><span style="color: #000000">([</span><span style="color: #098658">0</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">2</span><span style="color: #000000">, </span><span style="color: #098658">3</span><span style="color: #000000">, </span><span style="color: #098658">4</span><span style="color: #000000">, </span><span style="color: #098658">5</span><span style="color: #000000">, </span><span style="color: #098658">6</span><span style="color: #000000">, </span><span style="color: #098658">7</span><span style="color: #000000">, </span><span style="color: #098658">8</span><span style="color: #000000">, </span><span style="color: #098658">9</span><span style="color: #000000">, </span><span style="color: #098658">10</span><span style="color: #000000">])</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">map</span><span style="color: #000000">((</span><span style="color: #001080">x</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">x</span><span style="color: #000000"> * </span><span style="color: #001080">x</span><span style="color: #000000">)</span>
-<span style="color: #000000">  .</span><span style="color: #795E26">filter</span><span style="color: #000000">((</span><span style="color: #001080">x</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">x</span><span style="color: #000000"> % </span><span style="color: #098658">2</span><span style="color: #000000"> === </span><span style="color: #098658">0</span><span style="color: #000000">);</span>
-
-<span style="color: #AF00DB">for</span><span style="color: #000000"> (</span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">value</span><span style="color: #000000"> </span><span style="color: #0000FF">of</span><span style="color: #000000"> </span><span style="color: #001080">evens</span><span style="color: #000000">) {</span>
-<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
-<span style="color: #000000">}</span>
+<span style="color: #001080">quill</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;text-change&quot;</span><span style="color: #000000">, (</span><span style="color: #001080">delta</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">delta</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
 </code></pre>
 			</div>
 		</div>
