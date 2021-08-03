@@ -22,7 +22,7 @@
     "lint": "eslint . --fix",
     "prettier": "prettier --ignore-path ./.eslintignore --ignore-unknown --write .",
     "preCommit": "npm run prettier && npm run lint && npm run coverage && npm run prepublishOnly",
-    "example": "parcel serve example"
+    "example": "parcel serve example/index.html"
   },
   "husky": {
     "hooks": {

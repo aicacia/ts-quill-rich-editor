@@ -2,7 +2,7 @@ declare module "quill/themes/base" {
   import Quill, { BoundsStatic } from "quill";
   import Tooltip from "quill/ui/tooltip";
 
-  export class BaseTooltip extends Tooltip {
+  export default class BaseTooltip extends Tooltip {
     protected quill: Quill;
     protected root: HTMLElement;
     protected textbox: HTMLInputElement;

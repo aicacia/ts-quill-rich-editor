@@ -3,7 +3,7 @@ declare module "quill/themes/snow" {
   import Tooltip from "quill/ui/tooltip";
   import BaseTheme from "quill/themes/base";
 
-  export class SnowTheme extends BaseTheme {
+  export default class SnowTheme extends BaseTheme {
     static DEFAULTS: Record<string, unknown>;
 
     protected quill: Quill;

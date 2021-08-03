@@ -1,8 +1,8 @@
 import Quill from "quill";
 import type { QuillOptionsStatic } from "quill";
-import type { SnowTheme } from "quill/themes/snow";
-declare const SnowThemeClass: typeof SnowTheme;
-export declare class RichEditorTheme extends SnowThemeClass {
+import type SnowThemeClass from "quill/themes/snow";
+declare const SnowTheme: typeof SnowThemeClass;
+export declare class RichEditorTheme extends SnowTheme {
     static DEFAULTS: {
         [x: string]: any;
     };
