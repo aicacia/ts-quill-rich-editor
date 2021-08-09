@@ -62,7 +62,8 @@
     "typescript": "4"
   },
   "dependencies": {
-    "deepmerge": "4"
+    "deepmerge": "4",
+    "long-press-event": "^2.4.4"
   },
   "peerDependencies": {
     "quill": "2.0.0-dev.4",

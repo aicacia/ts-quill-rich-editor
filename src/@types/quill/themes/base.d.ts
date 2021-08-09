@@ -3,10 +3,10 @@ declare module "quill/themes/base" {
   import Tooltip from "quill/ui/tooltip";
 
   export default class BaseTooltip extends Tooltip {
-    protected quill: Quill;
-    protected root: HTMLElement;
-    protected textbox: HTMLInputElement;
-    protected linkRange: { index: number; length: number } | undefined;
+    public quill: Quill;
+    public root: HTMLElement;
+    public textbox: HTMLInputElement;
+    public linkRange: { index: number; length: number } | undefined;
 
     constructor(quill: Quill, bounds: BoundsStatic);
 

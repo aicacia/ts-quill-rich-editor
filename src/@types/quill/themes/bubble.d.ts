@@ -6,10 +6,10 @@ declare module "quill/themes/snow" {
   export default class SnowTheme extends BaseTheme {
     static DEFAULTS: Record<string, unknown>;
 
-    protected quill: Quill;
-    protected root: HTMLElement;
-    protected tooltip: Tooltip;
-    protected options: any;
+    public quill: Quill;
+    public root: HTMLElement;
+    public tooltip: Tooltip;
+    public options: any;
 
     constructor(quill: Quill, options: QuillOptionsStatic);
 

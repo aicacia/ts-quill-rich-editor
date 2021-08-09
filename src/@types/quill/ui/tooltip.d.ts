@@ -3,9 +3,9 @@ declare module "quill/ui/tooltip" {
   import Tooltip from "quill/ui/tooltip";
 
   export default class Tooltip {
-    protected quill: Quill;
-    protected root: HTMLElement;
-    protected boundsContainer: HTMLElement;
+    public quill: Quill;
+    public root: HTMLElement;
+    public boundsContainer: HTMLElement;
 
     constructor(quill: Quill, bounds: HTMLElement);
 

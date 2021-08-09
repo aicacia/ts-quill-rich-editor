@@ -1,20 +1,23 @@
 import Quill from "quill";
+import "long-press-event";
+import type * as RegistryModule from "parchment/src/registry";
+import type { BoundsStatic, Sources } from "quill";
 import type { RangeStatic } from "quill";
 import type TooltipClass from "quill/ui/tooltip";
 
+const Parchment = Quill.import("parchment");
+const Registry: typeof RegistryModule = Parchment.Registry;
 const LinkBlot = Quill.import("formats/link");
-const FormulaEmbed = Quill.import("formats/formula");
+const FormulaBlot = Quill.import("formats/formula");
 const Tooltip: typeof TooltipClass = Quill.import("ui/tooltip");
 
 export class RichEditorTooltip extends Tooltip {
   static TEMPLATE = [
-    '<a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank"></a>',
-    '<span class="ql-preview"></span>',
-    '<input type="text"/>',
-    "<textarea></textarea>",
-    '<div class="ql-katex"></div>',
-    '<a class="ql-action"></a>',
-    '<a class="ql-remove"></a>',
+    '<span class="ql-tooltip-arrow"></span>',
+    '<div class="ql-tooltip-editor">',
+    '<input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL">',
+    '<a class="ql-close"></a>',
+    "</div>",
   ].join("");
 
   protected textbox: HTMLInputElement;
@@ -27,14 +30,38 @@ export class RichEditorTooltip extends Tooltip {
   constructor(quill: Quill, bounds?: HTMLElement) {
     super(quill, bounds);
     this.textbox = this.root.querySelector('input[type="text"]');
-    this.hrefPreview = this.root.querySelector("a.ql-preview");
-    this.spanPreview = this.root.querySelector("span.ql-preview");
-    this.katexPreview = this.root.querySelector("div.ql-katex");
-    this.textarea = this.root.querySelector("textarea");
     this.listen();
   }
 
   listen() {
+    const container = (this.quill as any).container as HTMLElement;
+    container.setAttribute("data-long-press-delay", "500");
+    container.addEventListener("long-press", () => {
+      if (this.root.classList.contains("ql-editing")) return;
+      const range = this.quill.getSelection(true);
+      if (range) {
+        this.openAt(range);
+      }
+    });
+    container.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        this.cancel();
+        event.preventDefault();
+      }
+    });
+    container.addEventListener("click", (event) => {
+      const blot = Registry.find(event.target as HTMLElement, true);
+
+      if (blot) {
+        if (blot instanceof FormulaBlot) {
+          this.range = {
+            index: blot.offset(this.quill.scroll),
+            length: blot.length(),
+          };
+          this.edit("formula", FormulaBlot.value(blot.domNode));
+        }
+      }
+    });
     this.textbox.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         this.save();
@@ -44,142 +71,119 @@ export class RichEditorTooltip extends Tooltip {
         event.preventDefault();
       }
     });
-    this.textarea.addEventListener("input", () => {
-      (window as any).katex.render(this.textarea.value, this.katexPreview, {
-        throwOnError: false,
-        errorColor: "#f00",
-      });
-    });
-    this.root
-      .querySelector("a.ql-action")
-      .addEventListener("click", (event) => {
-        if (this.root.classList.contains("ql-editing")) {
-          this.save();
-        } else {
-          const mode = this.root.getAttribute("data-mode");
-          this.edit(
-            mode,
-            mode === "link"
-              ? this.hrefPreview.textContent
-              : this.spanPreview.getAttribute("data-value")
-          );
-        }
-        event.preventDefault();
-      });
-    this.root
-      .querySelector("a.ql-remove")
-      .addEventListener("click", (event) => {
-        if (this.range != null) {
-          const mode = this.root.getAttribute("data-mode"),
-            range = this.range;
-
-          this.restoreFocus();
-
-          if (mode === "link") {
-            this.quill.formatText(range, "link", false, "user");
-          } else if (mode === "formula") {
-            this.quill.deleteText(range.index, range.length, "user");
+    this.quill.on(
+      "selection-change",
+      (range: RangeStatic, _oldRange: RangeStatic, source: Sources) => {
+        if (range != null && source === "user") {
+          if (range.length > 0) {
+            this.openAt(range);
+          } else {
+            const [link, linkOffset] = (this.quill.scroll as any).descendant(
+              LinkBlot,
+              range.index
+            );
+            if (link != null) {
+              this.range = {
+                index: range.index - linkOffset,
+                length: link.length(),
+              };
+              this.edit("link", LinkBlot.formats(link.domNode));
+            }
           }
-          this.range = undefined;
+        } else if (
+          document.activeElement !== this.textbox &&
+          this.quill.hasFocus()
+        ) {
+          this.hide();
         }
-        event.preventDefault();
-        this.hide();
-      });
-    this.quill.on("selection-change", (range, _oldRange, source) => {
-      if (range == null) return;
-      if (range.length === 0 && source === "user") {
-        const [link, linkOffset] = (this.quill.scroll as any).descendant(
-          LinkBlot,
-          range.index
-        );
-        if (link != null) {
-          this.range = {
-            index: range.index - linkOffset,
-            length: link.length(),
-          };
-          const preview = LinkBlot.formats(link.domNode);
-          this.hrefPreview.textContent = preview;
-          this.hrefPreview.setAttribute("href", preview);
-          this.show();
-          this.position(
-            this.quill.getBounds(this.range.index, this.range.length)
-          );
-          this.root.setAttribute("data-mode", "link");
-          return;
-        }
-        const [formula, formulaOffset] = (this.quill.scroll as any).descendant(
-          FormulaEmbed,
-          range.index
-        );
-        if (formula != null) {
-          this.range = {
-            index: range.index - formulaOffset,
-            length: formula.length(),
-          };
-          const preview = FormulaEmbed.value(formula.domNode);
-          this.spanPreview.setAttribute("data-value", preview);
-          (window as any).katex.render(preview, this.spanPreview, {
-            throwOnError: false,
-            errorColor: "#f00",
-          });
-          this.show();
-          this.position(
-            this.quill.getBounds(this.range.index, this.range.length)
-          );
-          this.root.setAttribute("data-mode", "formula");
-          return;
-        }
-      } else {
-        delete this.range;
       }
-      this.hide();
+    );
+    this.root.querySelector(".ql-close").addEventListener("click", () => {
+      this.cancel();
+    });
+    this.quill.on("scroll-optimize" as any, () => {
+      setTimeout(() => {
+        if (this.root.classList.contains("ql-hidden")) return;
+        const range = this.quill.getSelection();
+        if (range != null) {
+          this.position(this.quill.getBounds(range.index, range.length));
+        }
+      }, 1);
     });
   }
 
-  hide() {
-    super.hide();
-    this.root.removeAttribute("data-mode");
-    if (this.hrefPreview) {
-      this.hrefPreview.textContent = "";
+  openAt(range: RangeStatic) {
+    this.show();
+    this.root.style.left = "0px";
+    this.root.style.width = "";
+    this.root.style.width = `${this.root.offsetWidth}px`;
+    const lines = this.quill.getLines(range.index, range.length);
+    if (lines.length <= 1) {
+      this.position(this.quill.getBounds(range.index, range.length));
+    } else {
+      const lastLine = lines[lines.length - 1];
+      const index = this.quill.getIndex(lastLine);
+      const length = Math.min(
+        lastLine.length() - 1,
+        range.index + range.length - index
+      );
+      const indexBounds = this.quill.getBounds(index, length);
+      this.position(indexBounds);
     }
-    if (this.spanPreview) {
-      this.spanPreview.textContent = "";
+  }
+
+  position(reference: BoundsStatic) {
+    const left =
+      reference.left + reference.width / 2 - this.root.offsetWidth / 2;
+    const top = reference.bottom + this.quill.root.scrollTop;
+    this.root.style.left = `${left}px`;
+    this.root.style.top = `${top}px`;
+    this.root.classList.remove("ql-flip");
+    const containerBounds = this.boundsContainer.getBoundingClientRect();
+    const rootBounds = this.root.getBoundingClientRect();
+    let shift = 0;
+    if (rootBounds.right > containerBounds.right) {
+      shift = containerBounds.right - rootBounds.right;
+      this.root.style.left = `${left + shift}px`;
     }
-    if (this.katexPreview) {
-      this.katexPreview.innerHTML = "";
+    if (rootBounds.left < containerBounds.left) {
+      shift = containerBounds.left - rootBounds.left;
+      this.root.style.left = `${left + shift}px`;
     }
+    if (rootBounds.top - rootBounds.height - 10 > containerBounds.top) {
+      const height = rootBounds.bottom - rootBounds.top;
+      const verticalShift = reference.bottom - reference.top + height;
+      this.root.style.top = `${top - verticalShift}px`;
+      this.root.classList.add("ql-flip");
+    }
+    const arrow = this.root.querySelector<HTMLElement>(".ql-tooltip-arrow");
+    arrow.style.marginLeft = "";
+    if (shift !== 0) {
+      arrow.style.marginLeft = `${-1 * shift - arrow.offsetWidth / 2}px`;
+    }
+    return shift;
   }
 
   cancel() {
     this.hide();
   }
 
-  edit(mode: string, preview?: string) {
-    this.root.removeAttribute("data-mode");
+  edit(mode = "link", preview = null) {
     this.root.classList.remove("ql-hidden");
     this.root.classList.add("ql-editing");
     if (preview != null) {
-      if (mode === "formula") {
-        this.textarea.value = preview;
-      } else {
-        this.textbox.value = preview;
-      }
-    } else {
-      this.textarea.value = "";
+      this.textbox.value = preview;
+    } else if (mode !== this.root.getAttribute("data-mode")) {
       this.textbox.value = "";
     }
     this.position(
       this.quill.getBounds((this.quill as any).selection.savedRange)
     );
-    if (mode === "formula") {
-      this.textarea.select();
-    } else {
-      this.textbox.select();
-      this.textbox.setAttribute(
-        "placeholder",
-        this.textbox.getAttribute(`data-${mode}`) || ""
-      );
-    }
+    this.textbox.select();
+    this.textbox.setAttribute(
+      "placeholder",
+      this.textbox.getAttribute(`data-${mode}`) || ""
+    );
     this.root.setAttribute("data-mode", mode);
   }
 
@@ -192,12 +196,10 @@ export class RichEditorTooltip extends Tooltip {
   }
 
   save() {
-    const mode = this.root.getAttribute("data-mode");
-    let value = mode === "formula" ? this.textarea.value : this.textbox.value;
-
-    switch (mode) {
+    let value = this.textbox.value;
+    switch (this.root.getAttribute("data-mode")) {
       case "link": {
-        const { scrollTop } = this.quill.root;
+        const scrollTop = this.quill.root.scrollTop;
         if (this.range) {
           this.quill.formatText(this.range, "link", value, "user");
           this.range = undefined;
@@ -210,20 +212,23 @@ export class RichEditorTooltip extends Tooltip {
       }
       case "video": {
         value = extractVideoUrl(value);
-      } // eslint-disable-next-line no-fallthrough
+      }
       case "formula": {
         if (!value) break;
-
         if (this.range) {
           this.quill.deleteText(this.range.index, this.range.length, "user");
           this.range = undefined;
         }
-
         const range = this.quill.getSelection(true);
         if (range != null) {
           const index = range.index + range.length;
-          this.quill.insertEmbed(index, mode, value, "user");
-          if (mode === "formula") {
+          this.quill.insertEmbed(
+            index,
+            this.root.getAttribute("data-mode"),
+            value,
+            "user"
+          );
+          if (this.root.getAttribute("data-mode") === "formula") {
             this.quill.insertText(index + 1, " ", "user");
           }
           this.quill.setSelection(index + 2, 0, "user");
@@ -232,6 +237,7 @@ export class RichEditorTooltip extends Tooltip {
       }
       default:
     }
+    this.textbox.value = "";
     this.hide();
   }
 }

@@ -1,10 +1,10 @@
 import Quill from "quill";
 import type { QuillOptionsStatic } from "quill";
-import type SnowThemeClass from "quill/themes/snow";
+import type BubbleThemeClass from "quill/themes/snow";
 import merge from "deepmerge";
 import { RichEditorTooltip } from "./RichEditorTooltip";
 
-const SnowTheme: typeof SnowThemeClass = Quill.import("themes/snow");
+const BubbleTheme: typeof BubbleThemeClass = Quill.import("themes/snow");
 const icons = Quill.import("ui/icons");
 
 const TOOLBAR_CONFIG = [
@@ -29,16 +29,33 @@ const TOOLBAR_CONFIG = [
   ["clean"],
 ];
 
-export class RichEditorTheme extends SnowTheme {
+export class RichEditorTheme extends BubbleTheme {
   static DEFAULTS = merge(
     {
       modules: {
         toolbar: {
-          handlers: {},
+          handlers: {
+            link(value) {
+              if (value) {
+                const range = this.quill.getSelection();
+                if (range == null || range.length === 0) return;
+                let preview = this.quill.getText(range);
+                if (
+                  /^\S+@\S+\.\S+$/.test(preview) &&
+                  preview.indexOf("mailto:") !== 0
+                ) {
+                  preview = `mailto:${preview}`;
+                }
+                this.quill.theme.tooltip.edit("link", preview);
+              } else {
+                this.quill.format("link", false);
+              }
+            },
+          },
         },
       },
     },
-    SnowTheme.DEFAULTS
+    BubbleTheme.DEFAULTS
   );
 
   constructor(quill: Quill, options: QuillOptionsStatic) {
@@ -56,18 +73,11 @@ export class RichEditorTheme extends SnowTheme {
   extendToolbar(toolbar: any) {
     toolbar.container.classList.add("ql-rich-editor");
 
+    this.tooltip = new RichEditorTooltip(this.quill, this.options.bounds);
+    this.tooltip.root.appendChild(toolbar.container);
+
     this.buildButtons(toolbar.container.querySelectorAll("button"), icons);
     this.buildPickers(toolbar.container.querySelectorAll("select"), icons);
-
-    this.tooltip = new RichEditorTooltip(this.quill, this.options.bounds);
-    if (toolbar.container.querySelector(".ql-link")) {
-      this.quill.keyboard.addBinding(
-        { key: "k", shortKey: true },
-        (_range, context) => {
-          toolbar.handlers.link.call(toolbar, !context.format.link);
-        }
-      );
-    }
   }
 }
 
