@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "deepmerge": "4",
-    "long-press-event": "^2.4.4"
+    "long-press-event": "2"
   },
   "peerDependencies": {
     "quill": "2.0.0-dev.4",

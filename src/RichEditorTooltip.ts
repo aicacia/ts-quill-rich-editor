@@ -15,21 +15,24 @@ export class RichEditorTooltip extends Tooltip {
   static TEMPLATE = [
     '<span class="ql-tooltip-arrow"></span>',
     '<div class="ql-tooltip-editor">',
-    '<input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL">',
+    '<input type="text" data-link="https://quilljs.com" data-video="Embed URL"/>',
+    '<textarea placeholder="e=mc^2"></textarea>',
+    '<div class="ql-katex"></div>',
     '<a class="ql-close"></a>',
+    '<a class="ql-save"></a>',
     "</div>",
   ].join("");
 
   protected textbox: HTMLInputElement;
-  protected hrefPreview: HTMLAnchorElement;
-  protected spanPreview: HTMLSpanElement;
-  protected katexPreview: HTMLDivElement;
   protected textarea: HTMLTextAreaElement;
+  protected katex: HTMLDivElement;
   protected range: RangeStatic | undefined;
 
   constructor(quill: Quill, bounds?: HTMLElement) {
     super(quill, bounds);
     this.textbox = this.root.querySelector('input[type="text"]');
+    this.textarea = this.root.querySelector("textarea");
+    this.katex = this.root.querySelector("div.ql-katex");
     this.listen();
   }
 
@@ -45,22 +48,34 @@ export class RichEditorTooltip extends Tooltip {
     });
     container.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
-        this.cancel();
+        this.hide();
         event.preventDefault();
       }
     });
-    container.addEventListener("click", (event) => {
-      const blot = Registry.find(event.target as HTMLElement, true);
+    container.addEventListener(
+      "click",
+      (event) => {
+        const blot = Registry.find(event.target as HTMLElement, true);
 
-      if (blot) {
-        if (blot instanceof FormulaBlot) {
-          this.range = {
-            index: blot.offset(this.quill.scroll),
-            length: blot.length(),
-          };
-          this.edit("formula", FormulaBlot.value(blot.domNode));
+        if (blot) {
+          if (blot instanceof FormulaBlot) {
+            this.range = {
+              index: blot.offset(this.quill.scroll),
+              length: blot.length(),
+            };
+            this.edit("formula", FormulaBlot.value(blot.domNode));
+            event.preventDefault();
+            event.stopPropagation();
+          }
         }
-      }
+      },
+      { capture: true }
+    );
+    this.textarea.addEventListener("input", () => {
+      (window as any).katex.render(this.textarea.value, this.katex, {
+        throwOnError: false,
+        errorColor: "#f00",
+      });
     });
     this.textbox.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
@@ -98,6 +113,9 @@ export class RichEditorTooltip extends Tooltip {
         }
       }
     );
+    this.root.querySelector(".ql-save").addEventListener("click", () => {
+      this.save();
+    });
     this.root.querySelector(".ql-close").addEventListener("click", () => {
       this.cancel();
     });
@@ -138,7 +156,6 @@ export class RichEditorTooltip extends Tooltip {
     const top = reference.bottom + this.quill.root.scrollTop;
     this.root.style.left = `${left}px`;
     this.root.style.top = `${top}px`;
-    this.root.classList.remove("ql-flip");
     const containerBounds = this.boundsContainer.getBoundingClientRect();
     const rootBounds = this.root.getBoundingClientRect();
     let shift = 0;
@@ -150,12 +167,6 @@ export class RichEditorTooltip extends Tooltip {
       shift = containerBounds.left - rootBounds.left;
       this.root.style.left = `${left + shift}px`;
     }
-    if (rootBounds.top - rootBounds.height - 10 > containerBounds.top) {
-      const height = rootBounds.bottom - rootBounds.top;
-      const verticalShift = reference.bottom - reference.top + height;
-      this.root.style.top = `${top - verticalShift}px`;
-      this.root.classList.add("ql-flip");
-    }
     const arrow = this.root.querySelector<HTMLElement>(".ql-tooltip-arrow");
     arrow.style.marginLeft = "";
     if (shift !== 0) {
@@ -164,26 +175,49 @@ export class RichEditorTooltip extends Tooltip {
     return shift;
   }
 
-  cancel() {
-    this.hide();
+  show() {
+    this.root.classList.remove("ql-editing");
+    this.root.classList.remove("ql-hidden");
+    if (this.textbox) this.textbox.value = "";
+    if (this.textarea) this.textarea.value = "";
+    if (this.katex) this.katex.innerHTML = "";
+    this.root.removeAttribute("data-mode");
   }
 
-  edit(mode = "link", preview = null) {
+  hide() {
+    this.root.classList.remove("ql-editing");
+    this.root.classList.add("ql-hidden");
+    this.root.removeAttribute("data-mode");
+  }
+
+  cancel() {
+    this.show();
+  }
+
+  edit(mode: string, preview?: string) {
     this.root.classList.remove("ql-hidden");
     this.root.classList.add("ql-editing");
     if (preview != null) {
-      this.textbox.value = preview;
-    } else if (mode !== this.root.getAttribute("data-mode")) {
-      this.textbox.value = "";
+      if (mode === "formula") {
+        this.textarea.value = preview;
+        this.textbox.value = "";
+      } else {
+        this.textbox.value = preview;
+        this.textarea.value = "";
+      }
     }
     this.position(
       this.quill.getBounds((this.quill as any).selection.savedRange)
     );
-    this.textbox.select();
-    this.textbox.setAttribute(
-      "placeholder",
-      this.textbox.getAttribute(`data-${mode}`) || ""
-    );
+    if (mode === "formula") {
+      this.textarea.select();
+    } else {
+      this.textbox.select();
+      this.textbox.setAttribute(
+        "placeholder",
+        this.textbox.getAttribute(`data-${mode}`) || ""
+      );
+    }
     this.root.setAttribute("data-mode", mode);
   }
 
@@ -196,8 +230,9 @@ export class RichEditorTooltip extends Tooltip {
   }
 
   save() {
-    let value = this.textbox.value;
-    switch (this.root.getAttribute("data-mode")) {
+    const mode = this.root.getAttribute("data-mode");
+    let value = mode === "formula" ? this.textarea.value : this.textbox.value;
+    switch (mode) {
       case "link": {
         const scrollTop = this.quill.root.scrollTop;
         if (this.range) {
@@ -222,13 +257,8 @@ export class RichEditorTooltip extends Tooltip {
         const range = this.quill.getSelection(true);
         if (range != null) {
           const index = range.index + range.length;
-          this.quill.insertEmbed(
-            index,
-            this.root.getAttribute("data-mode"),
-            value,
-            "user"
-          );
-          if (this.root.getAttribute("data-mode") === "formula") {
+          this.quill.insertEmbed(index, mode, value, "user");
+          if (mode === "formula") {
             this.quill.insertText(index + 1, " ", "user");
           }
           this.quill.setSelection(index + 2, 0, "user");
@@ -237,7 +267,6 @@ export class RichEditorTooltip extends Tooltip {
       }
       default:
     }
-    this.textbox.value = "";
     this.hide();
   }
 }
