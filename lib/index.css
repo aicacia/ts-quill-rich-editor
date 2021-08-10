@@ -511,14 +511,18 @@
     .ql-rich-editor .ql-tooltip a {
       cursor: pointer;
       text-decoration: none; }
-    .ql-rich-editor .ql-tooltip:not(.ql-flip) .ql-tooltip-arrow {
+    .ql-rich-editor .ql-tooltip .ql-tooltip-arrow {
       border-bottom: 6px solid #444;
       top: -6px; }
-  .ql-rich-editor .ql-tooltip.ql-flip {
-    transform: translateY(-10px); }
-    .ql-rich-editor .ql-tooltip.ql-flip .ql-tooltip-arrow {
-      border-top: 6px solid #444;
-      bottom: -6px; }
+    .ql-rich-editor .ql-tooltip[data-mode="formula"] input[type="text"],
+    .ql-rich-editor .ql-tooltip[data-mode="formula"] .ql-toolbar {
+      display: none; }
+    .ql-rich-editor .ql-tooltip[data-mode="video"] textarea,
+    .ql-rich-editor .ql-tooltip[data-mode="video"] .ql-toolbar,
+    .ql-rich-editor .ql-tooltip[data-mode="video"] .ql-katex, .ql-rich-editor .ql-tooltip[data-mode="link"] textarea,
+    .ql-rich-editor .ql-tooltip[data-mode="link"] .ql-toolbar,
+    .ql-rich-editor .ql-tooltip[data-mode="link"] .ql-katex {
+      display: none; }
   .ql-rich-editor .ql-formats {
     display: inline-block;
     vertical-align: middle; }
@@ -562,13 +566,13 @@
   .ql-rich-editor .ql-editor h2 {
     font-size: 1.5em; }
   .ql-rich-editor .ql-editor h3 {
-    font-size: 1.17em; }
+    font-size: 1.25em; }
   .ql-rich-editor .ql-editor h4 {
     font-size: 1em; }
   .ql-rich-editor .ql-editor h5 {
-    font-size: 0.83em; }
+    font-size: 0.75em; }
   .ql-rich-editor .ql-editor h6 {
-    font-size: 0.67em; }
+    font-size: 0.5em; }
   .ql-rich-editor .ql-editor a {
     text-decoration: underline; }
   .ql-rich-editor .ql-editor blockquote {
@@ -697,7 +701,7 @@
       content: "Heading 3"; }
     .ql-rich-editor .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
       content: "Heading 3";
-      font-size: 1.17em; }
+      font-size: 1.25em; }
     .ql-rich-editor .ql-picker.ql-header .ql-picker-label[data-value="4"]::before {
       content: "Heading 4"; }
     .ql-rich-editor .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
@@ -707,12 +711,12 @@
       content: "Heading 5"; }
     .ql-rich-editor .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
       content: "Heading 5";
-      font-size: 0.83em; }
+      font-size: 0.75em; }
     .ql-rich-editor .ql-picker.ql-header .ql-picker-label[data-value="6"]::before {
       content: "Heading 6"; }
     .ql-rich-editor .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
       content: "Heading 6";
-      font-size: 0.67em; }
+      font-size: 0.5em; }
   .ql-rich-editor .ql-picker.ql-font {
     width: 108px; }
     .ql-rich-editor .ql-picker.ql-font .ql-picker-label[data-label]:not([data-label=""])::before {
@@ -776,23 +780,36 @@
     visibility: hidden; }
   .ql-rich-editor .ql-tooltip-editor {
     display: none; }
+    .ql-rich-editor .ql-tooltip-editor textarea,
     .ql-rich-editor .ql-tooltip-editor input[type="text"] {
       background: transparent;
       border: none;
       color: #fff;
-      font-size: 13px;
+      font-size: 1em;
       height: 100%;
       outline: none;
-      padding: 10px 20px;
-      position: absolute;
+      padding: 10px;
       width: 100%; }
-    .ql-rich-editor .ql-tooltip-editor a {
+    .ql-rich-editor .ql-tooltip-editor .ql-katex {
+      padding: 10px; }
+    .ql-rich-editor .ql-tooltip-editor textarea {
+      resize: vertical; }
+    .ql-rich-editor .ql-tooltip-editor a.ql-close {
       top: 10px;
       position: absolute;
       right: 20px; }
-      .ql-rich-editor .ql-tooltip-editor a:before {
+      .ql-rich-editor .ql-tooltip-editor a.ql-close:before {
         color: #ccc;
         content: "\00D7";
+        font-size: 1em;
+        font-weight: bold; }
+    .ql-rich-editor .ql-tooltip-editor a.ql-save {
+      top: 10px;
+      position: absolute;
+      right: 40px; }
+      .ql-rich-editor .ql-tooltip-editor a.ql-save:before {
+        color: #0c0;
+        content: "\2713";
         font-size: 1em;
         font-weight: bold; }
 

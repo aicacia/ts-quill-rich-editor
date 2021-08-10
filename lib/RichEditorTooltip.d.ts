@@ -7,17 +7,17 @@ declare const Tooltip: typeof TooltipClass;
 export declare class RichEditorTooltip extends Tooltip {
     static TEMPLATE: string;
     protected textbox: HTMLInputElement;
-    protected hrefPreview: HTMLAnchorElement;
-    protected spanPreview: HTMLSpanElement;
-    protected katexPreview: HTMLDivElement;
     protected textarea: HTMLTextAreaElement;
+    protected katex: HTMLDivElement;
     protected range: RangeStatic | undefined;
     constructor(quill: Quill, bounds?: HTMLElement);
     listen(): void;
     openAt(range: RangeStatic): void;
     position(reference: BoundsStatic): number;
+    show(): void;
+    hide(): void;
     cancel(): void;
-    edit(mode?: string, preview?: any): void;
+    edit(mode: string, preview?: string): void;
     restoreFocus(): void;
     save(): void;
 }
