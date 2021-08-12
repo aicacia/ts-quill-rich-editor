@@ -9,7 +9,7 @@
   "type": "commonjs",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-  "styles": "./lib/theme.css",
+  "styles": "./lib/index.css",
   "scripts": {
     "build": "tsc",
     "buildCSS": "node-sass src/ -o lib/",

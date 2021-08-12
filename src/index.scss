@@ -1,7 +1,7 @@
 .ql-container {
   box-sizing: border-box;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 1em;
+  font-size: 1em !important;
   height: 100%;
   margin: 0px;
   position: relative;
@@ -910,16 +910,14 @@
       padding-left: 16px;
     }
     code {
-      background-color: #f0f0f0;
+      background-color: #f6f8fa;
       padding: 2px 4px;
     }
     .ql-code-block-container {
-      background-color: #f0f0f0;
+      background-color: #f6f8fa;
       margin-bottom: 5px;
       margin-top: 5px;
       padding: 5px 10px;
-      background-color: #23241f;
-      color: #f8f8f2;
       overflow: visible;
     }
     img {
