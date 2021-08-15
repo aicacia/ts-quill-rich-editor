@@ -498,6 +498,7 @@
   }
 }
 .ql-rich-editor.ql-toolbar {
+  z-index: 3;
   &:after {
     clear: both;
     content: "";
