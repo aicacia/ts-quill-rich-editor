@@ -1,3 +1,3 @@
 export { RichEditorTheme } from "./RichEditorTheme";
 export { createQuill } from "./createQuill";
-export { renderQuill } from "./renderQuill";
+export { renderQuill, renderOps } from "./renderQuill";

@@ -38,6 +38,7 @@
   "license": "(MIT OR Apache-2.0)",
   "readmeFilename": "README.md",
   "devDependencies": {
+    "@aicacia/debounce": "^0.1.9",
     "@parcel/transformer-sass": "next",
     "@types/deepmerge": "2",
     "@types/quill": "2.0.4",
