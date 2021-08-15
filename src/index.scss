@@ -498,7 +498,6 @@
   }
 }
 .ql-rich-editor.ql-toolbar {
-  z-index: 3;
   &:after {
     clear: both;
     content: "";
@@ -795,6 +794,7 @@
     visibility: hidden;
   }
   .ql-tooltip {
+    z-index: 3;
     position: absolute;
     transform: translateY(10px);
     background-color: #444;

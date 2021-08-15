@@ -1,10 +1,11 @@
-import { createQuill } from "../src";
+import { createQuill, renderQuill } from "../src";
 
 function onLoad() {
-  const quill = createQuill(document.getElementById("editor"));
+  const quill = createQuill(document.getElementById("editor")),
+    display = document.getElementById("display");
 
-  quill.on("text-change", (delta) => {
-    console.log(delta);
+  quill.on("text-change", () => {
+    renderQuill(display, quill);
   });
 }
 
