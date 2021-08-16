@@ -589,7 +589,8 @@
     margin-bottom: 5px;
     margin-top: 5px;
     padding: 5px 10px;
-    overflow: visible; }
+    overflow: visible;
+    border: 1px solid #ebedef; }
   .ql-rich-editor .ql-editor img {
     max-width: 100%; }
   .ql-rich-editor .ql-picker {
@@ -811,6 +812,9 @@
         content: "\2713";
         font-size: 1em;
         font-weight: bold; }
+
+.ql-read-only .ql-code-block-container .ql-ui {
+  display: none; }
 
 .ql-code-block-container {
   position: relative; }

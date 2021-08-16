@@ -920,6 +920,7 @@
       margin-top: 5px;
       padding: 5px 10px;
       overflow: visible;
+      border: 1px solid #ebedef;
     }
     img {
       max-width: 100%;
@@ -1307,6 +1308,13 @@
         font-size: 1em;
         font-weight: bold;
       }
+    }
+  }
+}
+.ql-read-only {
+  .ql-code-block-container {
+    .ql-ui {
+      display: none;
     }
   }
 }
