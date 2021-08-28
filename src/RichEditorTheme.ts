@@ -1,7 +1,6 @@
 import Quill from "quill";
 import type { QuillOptionsStatic } from "quill";
 import type BubbleThemeClass from "quill/themes/snow";
-import merge from "deepmerge";
 import { RichEditorTooltip } from "./RichEditorTooltip";
 
 const BubbleTheme: typeof BubbleThemeClass = Quill.import("themes/snow");
@@ -29,34 +28,36 @@ const TOOLBAR_CONFIG = [
   ["clean"],
 ];
 
+const BUBBLE_DEFAULTS = BubbleTheme.DEFAULTS as any;
 export class RichEditorTheme extends BubbleTheme {
-  static DEFAULTS = merge(
-    {
-      modules: {
-        toolbar: {
-          handlers: {
-            link(value) {
-              if (value) {
-                const range = this.quill.getSelection();
-                if (range == null || range.length === 0) return;
-                let preview = this.quill.getText(range);
-                if (
-                  /^\S+@\S+\.\S+$/.test(preview) &&
-                  preview.indexOf("mailto:") !== 0
-                ) {
-                  preview = `mailto:${preview}`;
-                }
-                this.quill.theme.tooltip.edit("link", preview);
-              } else {
-                this.quill.format("link", false);
+  static DEFAULTS = {
+    ...BUBBLE_DEFAULTS,
+    modules: {
+      ...BUBBLE_DEFAULTS.modules,
+      toolbar: {
+        ...BUBBLE_DEFAULTS.toolbar,
+        handlers: {
+          ...BUBBLE_DEFAULTS.toolbar.handlers,
+          link(value: string) {
+            if (value) {
+              const range = this.quill.getSelection();
+              if (range == null || range.length === 0) return;
+              let preview = this.quill.getText(range);
+              if (
+                /^\S+@\S+\.\S+$/.test(preview) &&
+                preview.indexOf("mailto:") !== 0
+              ) {
+                preview = `mailto:${preview}`;
               }
-            },
+              this.quill.theme.tooltip.edit("link", preview);
+            } else {
+              this.quill.format("link", false);
+            }
           },
         },
       },
     },
-    BubbleTheme.DEFAULTS
-  );
+  };
 
   constructor(quill: Quill, options: QuillOptionsStatic) {
     if (

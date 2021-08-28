@@ -13,8 +13,8 @@ declare module "quill/themes/snow" {
 
     constructor(quill: Quill, options: QuillOptionsStatic);
 
-    extendToolbar(toolbar: any);
-    buildButtons(buttons: NodeList, icons: any);
-    buildPickers(pickers: NodeList, icons: any);
+    extendToolbar(toolbar: any): void;
+    buildButtons(buttons: NodeList, icons: any): void;
+    buildPickers(pickers: NodeList, icons: any): void;
   }
 }

@@ -10,12 +10,12 @@ declare module "quill/themes/base" {
 
     constructor(quill: Quill, bounds: BoundsStatic);
 
-    show();
-    hide();
-    position(bounds: BoundsStatic);
-    restoreFocus();
-    listen();
-    save();
-    edit(mode: string, value: string);
+    show(): void;
+    hide(): void;
+    position(bounds: BoundsStatic): void;
+    restoreFocus(): void;
+    listen(): void;
+    save(): void;
+    edit(mode: string, value: string): void;
   }
 }

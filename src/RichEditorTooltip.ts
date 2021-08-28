@@ -30,9 +30,11 @@ export class RichEditorTooltip extends Tooltip {
 
   constructor(quill: Quill, bounds?: HTMLElement) {
     super(quill, bounds);
-    this.textbox = this.root.querySelector('input[type="text"]');
-    this.textarea = this.root.querySelector("textarea");
-    this.katex = this.root.querySelector("div.ql-katex");
+    this.textbox = this.root.querySelector(
+      'input[type="text"]'
+    ) as HTMLInputElement;
+    this.textarea = this.root.querySelector("textarea") as HTMLTextAreaElement;
+    this.katex = this.root.querySelector("div.ql-katex") as HTMLDivElement;
     this.listen();
   }
 
@@ -113,10 +115,10 @@ export class RichEditorTooltip extends Tooltip {
         }
       }
     );
-    this.root.querySelector(".ql-save").addEventListener("click", () => {
+    this.root.querySelector(".ql-save")?.addEventListener("click", () => {
       this.save();
     });
-    this.root.querySelector(".ql-close").addEventListener("click", () => {
+    this.root.querySelector(".ql-close")?.addEventListener("click", () => {
       this.cancel();
     });
     this.quill.on("scroll-optimize" as any, () => {
@@ -167,7 +169,7 @@ export class RichEditorTooltip extends Tooltip {
       shift = containerBounds.left - rootBounds.left;
       this.root.style.left = `${left + shift}px`;
     }
-    const arrow = this.root.querySelector<HTMLElement>(".ql-tooltip-arrow");
+    const arrow = this.root.querySelector(".ql-tooltip-arrow") as HTMLElement;
     arrow.style.marginLeft = "";
     if (shift !== 0) {
       arrow.style.marginLeft = `${-1 * shift - arrow.offsetWidth / 2}px`;
