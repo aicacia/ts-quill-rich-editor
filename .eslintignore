@@ -8,4 +8,5 @@ docs/
 browser/
 cjs/
 esm/
+styles/
 node_modules/
