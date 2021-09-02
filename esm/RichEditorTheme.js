@@ -1,2 +1,63 @@
-import t from"https://unpkg.com/quill@2.0.0-dev.4/dist/quill.js";import{RichEditorTooltip as i}from"./RichEditorTooltip.js";const l=t.import("themes/snow"),e=t.import("ui/icons"),o=[[{header:["1","2","3",!1]}],["bold","italic","underline","strike"],[{color:[]},{background:[]}],["code-block","formula"],[{list:"ordered"},{list:"bullet"}],[{align:[]}],["link","image"],["clean"]],s=l.DEFAULTS;class n extends l{constructor(t,i){i.modules&&null!=i.modules.toolbar&&null==i.modules.toolbar.container&&(i.modules.toolbar.container=o),super(t,i),this.quill.container.classList.add("ql-rich-editor")}extendToolbar(t){t.container.classList.add("ql-rich-editor"),this.tooltip=new i(this.quill,this.options.bounds),this.tooltip.root.appendChild(t.container),this.buildButtons(t.container.querySelectorAll("button"),e),this.buildPickers(t.container.querySelectorAll("select"),e)}}n.DEFAULTS=Object.assign(Object.assign({},s),{modules:Object.assign(Object.assign({},s.modules),{toolbar:Object.assign(Object.assign({},s.toolbar),{handlers:Object.assign(Object.assign({},s.toolbar.handlers),{link(t){if(t){const t=this.quill.getSelection();if(null==t||0===t.length)return;let i=this.quill.getText(t);/^\S+@\S+\.\S+$/.test(i)&&0!==i.indexOf("mailto:")&&(i=`mailto:${i}`),this.quill.theme.tooltip.edit("link",i)}else this.quill.format("link",!1)}})})})}),t.register("themes/rich-editor",n,!0);export{n as RichEditorTheme};
-//# sourceMappingURL=RichEditorTheme.js.map
+import Quill from "quill";
+import { RichEditorTooltip } from "./RichEditorTooltip";
+const BubbleTheme = Quill.import("themes/snow");
+const icons = Quill.import("ui/icons");
+const TOOLBAR_CONFIG = [
+    [{ header: ["1", "2", "3", false] }],
+    ["bold", "italic", "underline", "strike"],
+    [{ color: [] }, { background: [] }],
+    ["code-block", "formula"],
+    [
+        {
+            list: "ordered",
+        },
+        {
+            list: "bullet",
+        },
+    ],
+    [
+        {
+            align: [],
+        },
+    ],
+    ["link", "image"],
+    ["clean"],
+];
+const BUBBLE_DEFAULTS = BubbleTheme.DEFAULTS;
+export class RichEditorTheme extends BubbleTheme {
+    constructor(quill, options) {
+        if (options.modules &&
+            options.modules.toolbar != null &&
+            options.modules.toolbar.container == null) {
+            options.modules.toolbar.container = TOOLBAR_CONFIG;
+        }
+        super(quill, options);
+        this.quill.container.classList.add("ql-rich-editor");
+    }
+    extendToolbar(toolbar) {
+        toolbar.container.classList.add("ql-rich-editor");
+        this.tooltip = new RichEditorTooltip(this.quill, this.options.bounds);
+        this.tooltip.root.appendChild(toolbar.container);
+        this.buildButtons(toolbar.container.querySelectorAll("button"), icons);
+        this.buildPickers(toolbar.container.querySelectorAll("select"), icons);
+    }
+}
+RichEditorTheme.DEFAULTS = Object.assign(Object.assign({}, BUBBLE_DEFAULTS), { modules: Object.assign(Object.assign({}, BUBBLE_DEFAULTS.modules), { toolbar: Object.assign(Object.assign({}, BUBBLE_DEFAULTS.toolbar), { handlers: {
+                link(value) {
+                    if (value) {
+                        const range = this.quill.getSelection();
+                        if (range == null || range.length === 0)
+                            return;
+                        let preview = this.quill.getText(range);
+                        if (/^\S+@\S+\.\S+$/.test(preview) &&
+                            preview.indexOf("mailto:") !== 0) {
+                            preview = `mailto:${preview}`;
+                        }
+                        this.quill.theme.tooltip.edit("link", preview);
+                    }
+                    else {
+                        this.quill.format("link", false);
+                    }
+                },
+            } }) }) });
+Quill.register("themes/rich-editor", RichEditorTheme, true);

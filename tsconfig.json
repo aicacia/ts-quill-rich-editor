@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
     "importHelpers": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
     "target": "ES2015",
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "isolatedModules": true,
     "declaration": true,
     "outDir": "cjs",
+    "declarationDir": "types",
+    "skipLibCheck": true,
     "allowJs": true,
     "checkJs": true,
-    "skipLibCheck": true,
     "lib": ["ESNext", "DOM"]
   },
   "include": ["src"],

@@ -1,2 +1,16 @@
-import{createQuill as e}from"./createQuill.js";function n(e,n){e.innerHTML=`<div class="ql-container ql-snow ql-rich-editor ql-read-only"><div class="ql-editor">${n.root.innerHTML}</div></div>`,Array.from(e.querySelectorAll(".ql-code-block")).forEach((e=>{e.innerHTML=window.hljs.highlight(e.getAttribute("data-language"),e.innerText).value}))}function o(o,t){const i=o.ownerDocument,l=i.createElement("div");l.style.display="none",i.body.appendChild(l);const r=e(l);r.setContents({ops:t}),n(o,r),i.body.removeChild(l)}export{o as renderOps,n as renderQuill};
-//# sourceMappingURL=renderQuill.js.map
+import { createQuill } from "./createQuill";
+export function renderQuill(node, quill) {
+    node.innerHTML = `<div class="ql-container ql-snow ql-rich-editor ql-read-only"><div class="ql-editor">${quill.root.innerHTML}</div></div>`;
+    Array.from(node.querySelectorAll(".ql-code-block")).forEach((codeBlock) => {
+        codeBlock.innerHTML = window.hljs.highlight(codeBlock.getAttribute("data-language"), codeBlock.innerText).value;
+    });
+}
+export function renderOps(node, ops) {
+    const document = node.ownerDocument, tmp = document.createElement("div");
+    tmp.style.display = "none";
+    document.body.appendChild(tmp);
+    const quill = createQuill(tmp);
+    quill.setContents({ ops });
+    renderQuill(node, quill);
+    document.body.removeChild(tmp);
+}

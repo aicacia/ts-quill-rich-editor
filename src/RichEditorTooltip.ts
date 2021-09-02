@@ -39,19 +39,34 @@ export class RichEditorTooltip extends Tooltip {
   }
 
   listen() {
-    const container = (this.quill as any).container as HTMLElement;
+    const container = (this.quill as any).container as HTMLElement,
+      document = container.ownerDocument;
+
+    const onClick = (event: Event) => {
+      if (!container.contains(event.target as Node)) {
+        this.hide();
+      }
+    };
+    document.addEventListener("click", onClick);
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        for (const removedNode of Array.from(mutation.removedNodes)) {
+          if (removedNode === container) {
+            document.removeEventListener("click", onClick);
+            observer.disconnect();
+          }
+        }
+      }
+    });
+    observer.observe(container.parentElement, { childList: true });
+
     container.setAttribute("data-long-press-delay", "500");
     container.addEventListener("long-press", () => {
       if (this.root.classList.contains("ql-editing")) return;
       const range = this.quill.getSelection(true);
       if (range) {
         this.openAt(range);
-      }
-    });
-    container.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        this.hide();
-        event.preventDefault();
       }
     });
     container.addEventListener(
@@ -92,7 +107,12 @@ export class RichEditorTooltip extends Tooltip {
       "selection-change",
       (range: RangeStatic, _oldRange: RangeStatic, source: Sources) => {
         if (range != null && source === "user") {
-          if (range.length > 0) {
+          if (
+            range.length === 0 &&
+            !this.root.classList.contains("ql-hidden")
+          ) {
+            this.hide();
+          } else if (range.length > 0) {
             this.openAt(range);
           } else {
             const [link, linkOffset] = (this.quill.scroll as any).descendant(
@@ -107,11 +127,6 @@ export class RichEditorTooltip extends Tooltip {
               this.edit("link", LinkBlot.formats(link.domNode));
             }
           }
-        } else if (
-          document.activeElement !== this.textbox &&
-          this.quill.hasFocus()
-        ) {
-          this.hide();
         }
       }
     );

@@ -37,7 +37,6 @@ export class RichEditorTheme extends BubbleTheme {
       toolbar: {
         ...BUBBLE_DEFAULTS.toolbar,
         handlers: {
-          ...BUBBLE_DEFAULTS.toolbar.handlers,
           link(value: string) {
             if (value) {
               const range = this.quill.getSelection();

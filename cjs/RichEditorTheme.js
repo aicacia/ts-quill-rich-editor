@@ -47,7 +47,8 @@ class RichEditorTheme extends BubbleTheme {
     }
 }
 exports.RichEditorTheme = RichEditorTheme;
-RichEditorTheme.DEFAULTS = Object.assign(Object.assign({}, BUBBLE_DEFAULTS), { modules: Object.assign(Object.assign({}, BUBBLE_DEFAULTS.modules), { toolbar: Object.assign(Object.assign({}, BUBBLE_DEFAULTS.toolbar), { handlers: Object.assign(Object.assign({}, BUBBLE_DEFAULTS.toolbar.handlers), { link(value) {
+RichEditorTheme.DEFAULTS = Object.assign(Object.assign({}, BUBBLE_DEFAULTS), { modules: Object.assign(Object.assign({}, BUBBLE_DEFAULTS.modules), { toolbar: Object.assign(Object.assign({}, BUBBLE_DEFAULTS.toolbar), { handlers: {
+                link(value) {
                     if (value) {
                         const range = this.quill.getSelection();
                         if (range == null || range.length === 0)
@@ -62,5 +63,6 @@ RichEditorTheme.DEFAULTS = Object.assign(Object.assign({}, BUBBLE_DEFAULTS), { m
                     else {
                         this.quill.format("link", false);
                     }
-                } }) }) }) });
+                },
+            } }) }) });
 quill_1.default.register("themes/rich-editor", RichEditorTheme, true);

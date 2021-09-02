@@ -1,4 +1,4 @@
-import Quill from "quill";
+import type Quill from "quill";
 import type Delta from "quill-delta";
 import type Op from "quill-delta/dist/Op";
 import { createQuill } from "./createQuill";

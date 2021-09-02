@@ -1,8 +1,8 @@
-node_modules/
-coverage/
 .parcel-cache/
 dist/
+.vscode/
+node_modules/
+coverage/
 docs/
-dest/
 .nyc_output/
 npm-debug.log

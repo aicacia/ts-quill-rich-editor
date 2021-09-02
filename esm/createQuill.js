@@ -1,2 +1,10 @@
-import e from"https://unpkg.com/quill@2.0.0-dev.4/dist/quill.js";function t(t,r="Write..."){return new e(t,{modules:{syntax:!0},theme:"rich-editor",placeholder:r})}export{t as createQuill};
-//# sourceMappingURL=createQuill.js.map
+import Quill from "quill";
+export function createQuill(element, placeholder = "Write...") {
+    return new Quill(element, {
+        modules: {
+            syntax: true,
+        },
+        theme: "rich-editor",
+        placeholder,
+    });
+}
