@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createQuill = void 0;
 const tslib_1 = require("tslib");
 const quill_1 = tslib_1.__importDefault(require("quill"));
-function createQuill(element, placeholder = "Write...") {
+function createQuill(element, placeholder = "Write... (Long Click/Press to Open Toolbar)") {
     return new quill_1.default(element, {
         modules: {
             syntax: true,
