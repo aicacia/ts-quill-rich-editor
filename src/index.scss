@@ -114,7 +114,7 @@
     }
   }
   td {
-    border: 1px solid #000;
+    border: 1px solid #ccc;
     padding: 2px 5px;
   }
   li {
@@ -134,7 +134,7 @@
   }
   li[data-list="checked"] {
     > .ql-ui {
-      color: #777;
+      color: #333;
       &:before {
         content: "\2611";
       }
@@ -142,7 +142,7 @@
   }
   li[data-list="unchecked"] {
     > .ql-ui {
-      color: #777;
+      color: #333;
       &:before {
         content: "\2610";
       }
@@ -522,33 +522,33 @@
       }
     }
     &:hover {
-      color: #fff;
+      color: #777;
       .ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke.ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke {
-        stroke: #fff;
+        stroke: #777;
       }
       .ql-stroke-miter {
-        stroke: #fff;
+        stroke: #777;
       }
     }
     &:focus {
-      color: #fff;
+      color: #777;
       .ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke.ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke {
-        stroke: #fff;
+        stroke: #777;
       }
       .ql-stroke-miter {
-        stroke: #fff;
+        stroke: #777;
       }
     }
   }
@@ -556,82 +556,82 @@
     display: none;
   }
   button.ql-active {
-    color: #fff;
+    color: #777;
     .ql-fill {
-      fill: #fff;
+      fill: #777;
     }
     .ql-stroke.ql-fill {
-      fill: #fff;
+      fill: #777;
     }
     .ql-stroke {
-      stroke: #fff;
+      stroke: #777;
     }
     .ql-stroke-miter {
-      stroke: #fff;
+      stroke: #777;
     }
   }
   .ql-picker-label {
     &:hover {
-      color: #fff;
+      color: #777;
       .ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke.ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke {
-        stroke: #fff;
+        stroke: #777;
       }
       .ql-stroke-miter {
-        stroke: #fff;
+        stroke: #777;
       }
     }
   }
   .ql-picker-label.ql-active {
-    color: #fff;
+    color: #777;
     .ql-fill {
-      fill: #fff;
+      fill: #777;
     }
     .ql-stroke.ql-fill {
-      fill: #fff;
+      fill: #777;
     }
     .ql-stroke {
-      stroke: #fff;
+      stroke: #777;
     }
     .ql-stroke-miter {
-      stroke: #fff;
+      stroke: #777;
     }
   }
   .ql-picker-item {
     &:hover {
-      color: #fff;
+      color: #777;
       .ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke.ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke {
-        stroke: #fff;
+        stroke: #777;
       }
       .ql-stroke-miter {
-        stroke: #fff;
+        stroke: #777;
       }
     }
   }
   .ql-picker-item.ql-selected {
-    color: #fff;
+    color: #777;
     .ql-fill {
-      fill: #fff;
+      fill: #777;
     }
     .ql-stroke.ql-fill {
-      fill: #fff;
+      fill: #777;
     }
     .ql-stroke {
-      stroke: #fff;
+      stroke: #777;
     }
     .ql-stroke-miter {
-      stroke: #fff;
+      stroke: #777;
     }
   }
 }
@@ -661,33 +661,33 @@
         }
       }
       &:hover {
-        color: #fff;
+        color: #777;
         .ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke.ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke {
-          stroke: #fff;
+          stroke: #777;
         }
         .ql-stroke-miter {
-          stroke: #fff;
+          stroke: #777;
         }
       }
       &:focus {
-        color: #fff;
+        color: #777;
         .ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke.ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke {
-          stroke: #fff;
+          stroke: #777;
         }
         .ql-stroke-miter {
-          stroke: #fff;
+          stroke: #777;
         }
       }
     }
@@ -695,82 +695,82 @@
       display: none;
     }
     button.ql-active {
-      color: #fff;
+      color: #777;
       .ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke.ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke {
-        stroke: #fff;
+        stroke: #777;
       }
       .ql-stroke-miter {
-        stroke: #fff;
+        stroke: #777;
       }
     }
     .ql-picker-label {
       &:hover {
-        color: #fff;
+        color: #777;
         .ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke.ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke {
-          stroke: #fff;
+          stroke: #777;
         }
         .ql-stroke-miter {
-          stroke: #fff;
+          stroke: #777;
         }
       }
     }
     .ql-picker-label.ql-active {
-      color: #fff;
+      color: #777;
       .ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke.ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke {
-        stroke: #fff;
+        stroke: #777;
       }
       .ql-stroke-miter {
-        stroke: #fff;
+        stroke: #777;
       }
     }
     .ql-picker-item {
       &:hover {
-        color: #fff;
+        color: #777;
         .ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke.ql-fill {
-          fill: #fff;
+          fill: #777;
         }
         .ql-stroke {
-          stroke: #fff;
+          stroke: #777;
         }
         .ql-stroke-miter {
-          stroke: #fff;
+          stroke: #777;
         }
       }
     }
     .ql-picker-item.ql-selected {
-      color: #fff;
+      color: #777;
       .ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke.ql-fill {
-        fill: #fff;
+        fill: #777;
       }
       .ql-stroke {
-        stroke: #fff;
+        stroke: #777;
       }
       .ql-stroke-miter {
-        stroke: #fff;
+        stroke: #777;
       }
     }
     .ql-formats {
@@ -797,8 +797,9 @@
     z-index: 3;
     position: absolute;
     transform: translateY(10px);
-    background-color: #444;
-    color: #fff;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #444;
     a {
       cursor: pointer;
       text-decoration: none;
@@ -833,22 +834,22 @@
   }
   .ql-stroke {
     fill: none;
-    stroke: #ccc;
+    stroke: #aaa;
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 2;
   }
   .ql-stroke-miter {
     fill: none;
-    stroke: #ccc;
+    stroke: #aaa;
     stroke-miterlimit: 10;
     stroke-width: 2;
   }
   .ql-fill {
-    fill: #ccc;
+    fill: #aaa;
   }
   .ql-stroke.ql-fill {
-    fill: #ccc;
+    fill: #aaa;
   }
   .ql-empty {
     fill: none;
@@ -927,7 +928,7 @@
     }
   }
   .ql-picker {
-    color: #ccc;
+    color: #444;
     display: inline-block;
     float: left;
     font-size: 1em;
@@ -961,7 +962,8 @@
     }
   }
   .ql-picker-options {
-    background-color: #444;
+    background-color: #fff;
+    border: 1px solid #ccc;
     display: none;
     min-width: 100%;
     padding: 4px 8px;
@@ -976,7 +978,7 @@
   }
   .ql-picker.ql-expanded {
     .ql-picker-label {
-      color: #777;
+      color: #444;
       z-index: 2;
       .ql-fill {
         fill: #777;
@@ -1012,14 +1014,14 @@
       padding: 0px;
       width: 16px;
       &:hover {
-        border-color: #fff;
+        border-color: #ccc;
       }
     }
     svg {
       margin: 1px;
     }
     .ql-picker-item.ql-selected {
-      border-color: #fff;
+      border-color: #ccc;
     }
   }
   .ql-icon-picker {
@@ -1248,7 +1250,7 @@
   }
   .ql-color-picker.ql-color {
     .ql-picker-item {
-      background-color: #000;
+      background-color: #444;
     }
   }
   .ql-tooltip-arrow {
@@ -1274,7 +1276,7 @@
     input[type="text"] {
       background: transparent;
       border: none;
-      color: #fff;
+      color: #333;
       font-size: 1em;
       height: 100%;
       outline: none;
@@ -1282,29 +1284,30 @@
       width: 100%;
     }
     .ql-katex {
+      width: 540px;
+      overflow: auto;
       padding: 10px;
     }
     textarea {
       resize: vertical;
     }
     a.ql-close {
-      top: 10px;
+      top: 2px;
       position: absolute;
-      right: 20px;
+      right: 2px;
       &:before {
-        color: #ccc;
+        color: #333;
         content: "\00D7";
         font-size: 1em;
         font-weight: bold;
       }
     }
     a.ql-save {
-      top: 10px;
+      bottom: 2px;
+      right: 2px;
       position: absolute;
-      right: 40px;
       &:before {
-        color: #0c0;
-        content: "\2713";
+        content: "Update";
         font-size: 1em;
         font-weight: bold;
       }
@@ -1330,18 +1333,18 @@
     button {
       &:hover {
         &:not(.ql-active) {
-          color: #ccc;
+          color: #333;
           .ql-fill {
-            fill: #ccc;
+            fill: #333;
           }
           .ql-stroke.ql-fill {
-            fill: #ccc;
+            fill: #333;
           }
           .ql-stroke {
-            stroke: #ccc;
+            stroke: #333;
           }
           .ql-stroke-miter {
-            stroke: #ccc;
+            stroke: #333;
           }
         }
       }
@@ -1352,18 +1355,18 @@
       button {
         &:hover {
           &:not(.ql-active) {
-            color: #ccc;
+            color: #333;
             .ql-fill {
-              fill: #ccc;
+              fill: #333;
             }
             .ql-stroke.ql-fill {
-              fill: #ccc;
+              fill: #333;
             }
             .ql-stroke {
-              stroke: #ccc;
+              stroke: #333;
             }
             .ql-stroke-miter {
-              stroke: #ccc;
+              stroke: #333;
             }
           }
         }
