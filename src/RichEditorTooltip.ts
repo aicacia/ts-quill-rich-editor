@@ -40,33 +40,46 @@ export class RichEditorTooltip extends Tooltip {
 
   listen() {
     const container = (this.quill as any).container as HTMLElement,
-      document = container.ownerDocument;
+      root = this.quill.root;
 
-    const onClick = (event: Event) => {
-      if (!container.contains(event.target as Node)) {
-        this.hide();
-      }
-    };
-    document.addEventListener("click", onClick);
+    if (typeof MutationObserver === "function") {
+      const onClick = (event: Event) => {
+          if (
+            !container.contains(event.target as Node) &&
+            !this.root.classList.contains("ql-hidden")
+          ) {
+            this.hide();
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        },
+        document = container.ownerDocument;
 
-    const observer = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        for (const removedNode of Array.from(mutation.removedNodes)) {
-          if (removedNode === container) {
-            document.removeEventListener("click", onClick);
-            observer.disconnect();
+      document.addEventListener("click", onClick);
+
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          for (const removedNode of Array.from(mutation.removedNodes)) {
+            if (removedNode === container) {
+              document.removeEventListener("click", onClick);
+              observer.disconnect();
+            }
           }
         }
-      }
-    });
-    observer.observe(container.parentElement, { childList: true });
+      });
+      observer.observe(container.parentElement, { childList: true });
+    }
 
-    container.setAttribute("data-long-press-delay", "500");
-    container.addEventListener("long-press", () => {
-      if (this.root.classList.contains("ql-editing")) return;
+    root.setAttribute("data-long-press-delay", "500");
+    root.addEventListener("long-press", (event) => {
+      if (this.root.classList.contains("ql-editing")) {
+        return;
+      }
       const range = this.quill.getSelection(true);
       if (range) {
         this.openAt(range);
+        event.preventDefault();
+        event.stopPropagation();
       }
     });
     container.addEventListener(
