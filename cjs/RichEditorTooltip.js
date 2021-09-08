@@ -19,31 +19,39 @@ class RichEditorTooltip extends Tooltip {
     }
     listen() {
         var _a, _b;
-        const container = this.quill.container, document = container.ownerDocument;
-        const onClick = (event) => {
-            if (!container.contains(event.target)) {
-                this.hide();
-            }
-        };
-        document.addEventListener("click", onClick);
-        const observer = new MutationObserver((mutations) => {
-            for (const mutation of mutations) {
-                for (const removedNode of Array.from(mutation.removedNodes)) {
-                    if (removedNode === container) {
-                        document.removeEventListener("click", onClick);
-                        observer.disconnect();
+        const container = this.quill.container, root = this.quill.root;
+        if (typeof MutationObserver === "function") {
+            const onClick = (event) => {
+                if (!container.contains(event.target) &&
+                    !this.root.classList.contains("ql-hidden")) {
+                    this.hide();
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }, document = container.ownerDocument;
+            document.addEventListener("click", onClick);
+            const observer = new MutationObserver((mutations) => {
+                for (const mutation of mutations) {
+                    for (const removedNode of Array.from(mutation.removedNodes)) {
+                        if (removedNode === container) {
+                            document.removeEventListener("click", onClick);
+                            observer.disconnect();
+                        }
                     }
                 }
-            }
-        });
-        observer.observe(container.parentElement, { childList: true });
-        container.setAttribute("data-long-press-delay", "500");
-        container.addEventListener("long-press", () => {
-            if (this.root.classList.contains("ql-editing"))
+            });
+            observer.observe(container.parentElement, { childList: true });
+        }
+        root.setAttribute("data-long-press-delay", "500");
+        root.addEventListener("long-press", (event) => {
+            if (this.root.classList.contains("ql-editing")) {
                 return;
+            }
             const range = this.quill.getSelection(true);
             if (range) {
                 this.openAt(range);
+                event.preventDefault();
+                event.stopPropagation();
             }
         });
         container.addEventListener("click", (event) => {
